@@ -11,9 +11,9 @@ function AdminPage() {
   return (
     <div>
       <h1>Admin Page</h1>
-      <div class="col align-self-center m-3">
+      <div class="col m-5">
         <select
-          className="form-select"
+          className="form-select align-center"
           id="validationCustom04"
           required
           onChange={(e) => setReportType(e.target.value)}
@@ -26,7 +26,7 @@ function AdminPage() {
         </select>
         <div class="col align-self-center m-3">
           <button
-            className="btn btn-primary"
+            className="btn btn-success"
             type="submit"
             onClick={generateReport}
           >

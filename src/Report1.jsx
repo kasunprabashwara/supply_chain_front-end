@@ -9,10 +9,10 @@ function Report1() {
     });
   }, []);
   return (
-    <div className="App">
+    <div>
       <h1>Report1</h1>
-      <table className="table">
-        <thead className="thead dark">
+      <table className="table table-bordered table-hover">
+        <thead className="thead light">
           <tr>
             <th>Product ID</th>
             <th>Name</th>

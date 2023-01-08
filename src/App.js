@@ -1,8 +1,9 @@
-import "./App.css";
+// import "./App.css";
 import React, { useState, useEffect } from "react";
 import AdminPage from "./AdminPage";
-import { BrowserRouter, Routes, Route, ProtectedRoute } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
+import OrderPage from "./OrderPage";
 
 function App() {
   // const handleSubmit = () => {
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/order" element={<OrderPage />} />
       </Routes>
     </BrowserRouter>
   );
