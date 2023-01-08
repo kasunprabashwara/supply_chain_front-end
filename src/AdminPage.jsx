@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Report1 from "./Report1";
 
 function AdminPage() {
   const [reportType, setReportType] = useState("0");
+  let username = useLocation().state.username;
+  console.log(username);
   const [lastGeneratedReport, setLastGeneratedReport] = useState("-1");
   const generateReport = () => {
     setLastGeneratedReport(reportType);
@@ -10,7 +13,7 @@ function AdminPage() {
   };
   return (
     <div>
-      <h1>Admin Page</h1>
+      <h1>Admin Page. Welcome {username} </h1>
       <div class="col m-5">
         <select
           className="form-select align-center"

@@ -3,19 +3,22 @@ import "./styles.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import Axios from "axios";
-import { Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userName,setUserName]= useState();
+  const [currentUsername, setUsername] = useState();
   const handleLogin = (values) => {
+    console.log("Login");
+    setUsername(values.username);
     Axios.post("http://localhost:3001/login", {
-      email: values.email,
+      username: values.username,
       password: values.password,
     }).then((response) => {
       console.log(response);
       if (response.data.msg === "User logged in") {
         setLoggedIn(true);
+        console.log("Logged in");
       } else {
         alert(response.data.msg);
       }
@@ -23,9 +26,9 @@ function App() {
   };
 
   const handleRegister = (values) => {
-    setUserName(values.email);
+    setUsername(values.username);
     Axios.post("http://localhost:3001/register", {
-      email: values.email,
+      username: values.username,
       password: values.password,
     }).then((response) => {
       alert(response.data.msg);
@@ -34,7 +37,7 @@ function App() {
   };
 
   const validationsLogin = yup.object().shape({
-    email: yup.string().email("Invalid email").required("Email is required"),
+    username: yup.string().required("Username is required"),
     password: yup
       .string()
       .min(8, "Password must be at least 8 characters")
@@ -42,7 +45,7 @@ function App() {
   });
 
   const validationsRegister = yup.object().shape({
-    email: yup.string().email("Invalid email").required("Email is required"),
+    username: yup.string().required("Username is required"),
     password: yup
       .string()
       .min(8, "Password must be at least 8 characters")
@@ -55,7 +58,9 @@ function App() {
 
   return (
     <div className="container">
-      {loggedIn && <Navigate to="/admin" state={{ name:  }} />}
+      {loggedIn && (
+        <Navigate to="/admin" state={{ username: currentUsername }} />
+      )}
       <h1>Login</h1>
       <Formik
         initialValues={{}}
@@ -65,9 +70,9 @@ function App() {
         <Form className="login-form">
           <div className="login-form-group">
             <Field
-              name="email"
+              name="username"
               className="form-field"
-              placeholder="Email"
+              placeholder="Username"
               style={{
                 transition: "all 0.2s ease-in-out",
                 borderRadius: "7px",
@@ -83,7 +88,7 @@ function App() {
 
             <ErrorMessage
               component="span"
-              name="email"
+              name="username"
               className="form-error"
               style={{ color: "red", margin: "7px 3px" }}
             />
@@ -130,9 +135,9 @@ function App() {
         <Form className="register-form">
           <div className="register-form-group">
             <Field
-              name="email"
+              name="username"
               className="form-field"
-              placeholder="Email"
+              placeholder="Username"
               style={{
                 transition: "all 0.2s ease-in-out",
                 borderRadius: "7px",
@@ -148,7 +153,7 @@ function App() {
 
             <ErrorMessage
               component="span"
-              name="email"
+              name="username"
               className="form-error"
               style={{ color: "red", margin: "7px 3px" }}
             />
