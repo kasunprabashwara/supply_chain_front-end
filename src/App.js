@@ -1,12 +1,10 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
-import Report from "./Report1";
 import AdminPage from "./AdminPage";
+import { BrowserRouter, Routes, Route, ProtectedRoute } from "react-router-dom";
+import Login from "./Login";
 
 function App() {
-  const [name, setName] = useState("");
-  const [review, setReview] = useState("");
   // const handleSubmit = () => {
   //   Axios.post("http://localhost:3001/api/insert", {
   //     cusName: name,
@@ -21,9 +19,12 @@ function App() {
   //   });
   // }, []);
   return (
-    <div className="App">
-      <AdminPage />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
