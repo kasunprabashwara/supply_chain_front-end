@@ -3,37 +3,41 @@ import "./styles.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import Axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setisAdmin] = useState(false);
+  const [isUser, setisUser] = useState(false);
   const [currentUsername, setUsername] = useState();
+  const [customerID, setcustomerID] = useState();
   const handleLogin = (values) => {
-    console.log("Login");
     setUsername(values.username);
-    Axios.post("http://localhost:3001/login", {
+
+    Axios.post("http://localhost:3001/checkadmin", {
       username: values.username,
       password: values.password,
     }).then((response) => {
       console.log(response);
-      if (response.data.msg === "User logged in") {
-        setLoggedIn(true);
-        console.log("Logged in");
-      } else {
-        alert(response.data.msg);
+      if (response.data.msg === "Admin logged in") {
+        setisAdmin(true);
+        console.log("Logged in as admin");
       }
     });
-  };
-
-  const handleRegister = (values) => {
-    setUsername(values.username);
-    Axios.post("http://localhost:3001/register", {
-      username: values.username,
-      password: values.password,
-    }).then((response) => {
-      alert(response.data.msg);
-      console.log(response);
-    });
+    if (!isAdmin) {
+      Axios.post("http://localhost:3001/checkuser", {
+        username: values.username,
+        password: values.password,
+      }).then((response) => {
+        console.log(response);
+        if (response.data.msg === "User logged in") {
+          setcustomerID(response.data.customerID);
+          setisUser(true);
+          console.log("Logged in as user");
+        } else {
+          alert(response.data.msg);
+        }
+      });
+    }
   };
 
   const validationsLogin = yup.object().shape({
@@ -44,22 +48,16 @@ function App() {
       .required("Password is required"),
   });
 
-  const validationsRegister = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .required("password is required"),
-    confirmation: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "Passwords must match")
-      .required("Password confirmation is required"),
-  });
-
   return (
     <div className="container">
-      {loggedIn && (
+      {isAdmin && (
         <Navigate to="/admin" state={{ username: currentUsername }} />
+      )}
+      {isUser && (
+        <Navigate
+          to="/order"
+          state={{ username: currentUsername, customerID: customerID }}
+        />
       )}
       <h1>Login</h1>
       <Formik
@@ -125,99 +123,7 @@ function App() {
           </button>
         </Form>
       </Formik>
-
-      <h1>Registration</h1>
-      <Formik
-        initialValues={{}}
-        onSubmit={handleRegister}
-        validationSchema={validationsRegister}
-      >
-        <Form className="register-form">
-          <div className="register-form-group">
-            <Field
-              name="username"
-              className="form-field"
-              placeholder="Username"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
-            />
-
-            <ErrorMessage
-              component="span"
-              name="username"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
-            />
-          </div>
-
-          <div className="form-group">
-            <Field
-              name="password"
-              className="form-field"
-              type="password"
-              placeholder="Password"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
-            />
-
-            <ErrorMessage
-              component="span"
-              name="password"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
-            />
-          </div>
-
-          <div className="form-group">
-            <Field
-              name="confirmation"
-              className="form-field"
-              type="password"
-              placeholder="Password"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
-            />
-
-            <ErrorMessage
-              component="span"
-              name="confirmation"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
-            />
-          </div>
-
-          <button className="button" type="submit">
-            Register
-          </button>
-        </Form>
-      </Formik>
+      <Link to="/signin">registor as a new customer</Link>
     </div>
   );
 }
