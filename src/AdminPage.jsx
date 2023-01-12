@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Report1 from "./Report1";
+import QuaterlySales from "./QuaterlySales";
+import SalesByCity from "./SalesByCity";
+import SalesByRoute from "./SalesByRoute";
+import WorkingHours from "./WorkingHours";
 
 function AdminPage() {
   const [reportType, setReportType] = useState("0");
@@ -17,19 +20,25 @@ function AdminPage() {
           onChange={(e) => setReportType(e.target.value)}
         >
           <option value="0" selected disabled>
-            Choose
+            Choose the report type
           </option>
-          <option value="1">Quaterly Sales</option>
-          <option value="2">Report 3</option>
+          <option value="1">Quaterly sales</option>
+          <option value="2">Sales by the route</option>
+          <option value="3">Sales by the city</option>
+          <option value="4">Working hours</option>
         </select>
       </div>
       <div>
         {(() => {
           switch (reportType) {
             case "1":
-              return <Report1 />;
-            // case "1":
-            //     return <Report2/>
+              return <QuaterlySales />;
+            case "2":
+              return <SalesByRoute />;
+            case "3":
+              return <SalesByCity />;
+            case "4":
+              return <WorkingHours />;
             default:
               return null;
           }

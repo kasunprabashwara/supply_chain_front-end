@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 import Axios from "axios";
-function Report1() {
+function SalesByRoute() {
   const [reportData, setReportData] = useState([]);
-  const [quater, setquater] = useState("1");
+  const [route, setroute] = useState("1");
   const [year, setyear] = useState("2022");
   const [fetched, setfetched] = useState(false);
+  const [routes, setRoutes] = useState([]);
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/allroutes").then((res) => {
+      setRoutes(res.data);
+    });
+  }, []);
   const fetchReport = () => {
-    Axios.post("http://localhost:3001/quaterly", {
-      quater: quater,
+    Axios.post("http://localhost:3001/routereport", {
+      route: route,
       year: year,
     }).then((response) => {
       setReportData(response.data[0]);
@@ -17,7 +24,7 @@ function Report1() {
   };
   return (
     <div>
-      <h4>Quaterly Sales Report</h4>
+      <h4>Sales by the route</h4>
       <form>
         <div className="form-group row">
           <div class="col-md-4 mb-3">
@@ -36,17 +43,20 @@ function Report1() {
           </div>
           <div class="col-md-4 mb-3">
             <label>
-              Quater:
+              Route:
               <select
                 className="form-select m-3"
                 id="quater"
                 required
-                onChange={(e) => setquater(e.target.value)}
+                onChange={(e) => setroute(e.target.value)}
               >
-                <option value="1">First</option>
-                <option value="2">Second</option>
-                <option value="3">Third</option>
-                <option value="4">Forth</option>
+                {routes.map((route, key) => {
+                  return (
+                    <option key={route.Route_ID} value={route.Route_ID}>
+                      Route- {route.Route_ID}
+                    </option>
+                  );
+                })}
               </select>
             </label>
           </div>
@@ -65,9 +75,9 @@ function Report1() {
           <thead className="thead light">
             <tr>
               <th>Product ID</th>
-              <th>Name</th>
+              <th>Product Name</th>
               <th>Quantity</th>
-              <th>Total Sales Price</th>
+              <th>Total Sales</th>
             </tr>
             {reportData.map((val, key) => {
               return (
@@ -75,7 +85,7 @@ function Report1() {
                   <td>{val.Product_ID}</td>
                   <td>{val.Product_Name}</td>
                   <td>{val.Quantity}</td>
-                  <td>{val.Total_Sales_Price}</td>
+                  <td>{val.Total_Sales}</td>
                 </tr>
               );
             })}
@@ -85,4 +95,4 @@ function Report1() {
     </div>
   );
 }
-export default Report1;
+export default SalesByRoute;
