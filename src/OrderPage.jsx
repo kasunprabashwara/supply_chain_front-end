@@ -49,37 +49,52 @@ function OrderPage() {
     }
     setCart(newCart);
   };
+  // const placeOrder = () => {
+  //   axios
+  //     .post("http://localhost:3001/placeOrder", {
+  //       customerID: customerID,
+  //       routeID: selectedRoute,
+  //     })
+  //     .then((res) => {
+  //       if (res) {
+  //         console.log(res.data);
+  //         const orderID = res.data[0].orderID;
+  //         for (const item of cart) {
+  //           axios
+  //             .post("http://localhost:3001/addItem", {
+  //               orderID: orderID,
+  //               productID: item.Product_ID,
+  //               quantity: item.quantity,
+  //             })
+  //             .then((res) => {
+  //               if (res) {
+  //                 console.log(res.data);
+  //               }
+  //             });
+  //         }
+  //         alert("Order Placed");
+  //       }
+  //     });
+  // };
   const placeOrder = () => {
     axios
-      .post("http://localhost:3001/placeOrder", {
-        customerID: customerID,
-        routeID: selectedRoute,
+      .post("http://localhost:3001/addorder", {
+        order: { customerID: customerID, routeID: selectedRoute },
+        items: cart,
       })
       .then((res) => {
         if (res) {
           console.log(res.data);
-          const orderID = res.data[0].orderID;
-          for (const item of cart) {
-            axios
-              .post("http://localhost:3001/addItem", {
-                orderID: orderID,
-                productID: item.Product_ID,
-                quantity: item.quantity,
-              })
-              .then((res) => {
-                if (res) {
-                  console.log(res.data);
-                }
-              });
-          }
-          alert("Order Placed");
+          const string =
+            "Order will be delivered after" + res.data.toString() + "days";
+          alert(string);
         }
       });
   };
 
   return (
     <div className="container">
-      <div class="row">
+      <div className="row">
         <div className="col-8">
           <h1>Welcome {customer}</h1>
           <h2>Item List</h2>

@@ -44,7 +44,7 @@ function WorkingHours() {
       });
     } else {
       Axios.post("http://localhost:3001/qworkinghours", {
-        month: time,
+        quater: time,
         year: year,
         type: type,
       }).then((response) => {
