@@ -59,6 +59,9 @@ function App() {
           state={{ username: currentUsername, customerID: customerID }}
         />
       )}
+      <h1 style={{ color: "#197526", letterSpacing: "1px" }}>
+        Wellcome to EasyExpress web portal
+      </h1>
       <h1>Login</h1>
       <Formik
         initialValues={{}}
@@ -123,7 +126,7 @@ function App() {
           </button>
         </Form>
       </Formik>
-      <Link to="/signin">registor as a new customer</Link>
+      <Link to="/signin">Register as a new customer</Link>
     </div>
   );
 }

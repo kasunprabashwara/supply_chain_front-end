@@ -36,7 +36,7 @@ function AdminPage() {
         </div>
         <div className="col">
           <button className="btn btn-primary m-5" onClick={schedule}>
-            Schedule train trips
+            Schedule Trips
           </button>
         </div>
       </div>

@@ -24,7 +24,7 @@ function SalesByRoute() {
   };
   return (
     <div>
-      <h4>Sales by the route</h4>
+      <h4>Sales by the Route</h4>
       <form>
         <div className="form-group row">
           <div class="col-md-4 mb-3">

@@ -85,9 +85,7 @@ function OrderPage() {
       .then((res) => {
         if (res) {
           console.log(res.data);
-          const string =
-            "Order will be delivered after" + res.data.toString() + "days";
-          alert(string);
+          alert("Order Successfuly Placed");
         }
       });
   };

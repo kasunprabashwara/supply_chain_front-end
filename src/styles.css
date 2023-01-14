@@ -13,7 +13,6 @@ h1 {
   margin: 0 auto 10px;
   color: rgb(0, 0, 0);
   font: 30px Helvetica;
-  text-transform: uppercase;
   letter-spacing: 3px;
 }
 form-field {
@@ -86,7 +85,7 @@ button {
 }
 
 button:hover {
-  background-color: #2d612f; /* Green */
+  background-color: #197526; /* Green */
   color: white;
 }
 input[type="submit"] {

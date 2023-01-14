@@ -56,7 +56,7 @@ function WorkingHours() {
   };
   return (
     <div>
-      <h4>Working hours</h4>
+      <h4>Working Hours</h4>
       <form>
         <div className="form-group row">
           <div class="col">
