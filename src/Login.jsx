@@ -4,16 +4,18 @@ import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import Axios from "axios";
 import { Navigate, Link } from "react-router-dom";
+import Layout from "./layout";
 
 function App() {
   const [isAdmin, setisAdmin] = useState(false);
   const [isUser, setisUser] = useState(false);
   const [currentUsername, setUsername] = useState();
   const [customerID, setcustomerID] = useState();
+
   const handleLogin = (values) => {
     setUsername(values.username);
-
-    Axios.post("http://localhost:3001/checkadmin", {
+    console.log(process.env.REACT_APP_DOMAIN_NAME);
+    Axios.post(process.env.REACT_APP_DOMAIN_NAME+"/checkadmin", {
       username: values.username,
       password: values.password,
     }).then((response) => {
@@ -23,8 +25,9 @@ function App() {
         console.log("Logged in as admin");
       }
     });
+
     if (!isAdmin) {
-      Axios.post("http://localhost:3001/checkuser", {
+      Axios.post(process.env.REACT_APP_DOMAIN_NAME+"/checkuser", {
         username: values.username,
         password: values.password,
       }).then((response) => {
@@ -49,6 +52,7 @@ function App() {
   });
 
   return (
+    <Layout>
     <div className="container">
       {isAdmin && (
         <Navigate to="/admin" state={{ username: currentUsername }} />
@@ -59,75 +63,54 @@ function App() {
           state={{ username: currentUsername, customerID: customerID }}
         />
       )}
-      <h1 style={{ color: "#197526", letterSpacing: "1px" }}>
-        Wellcome to EasyExpress web portal
-      </h1>
-      <h1>Login</h1>
+      <h1>Welcome to EasyExpress web portal</h1>
+      <h2>Login</h2>
       <Formik
         initialValues={{}}
         onSubmit={handleLogin}
         validationSchema={validationsLogin}
       >
         <Form className="login-form">
-          <div className="login-form-group">
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
             <Field
               name="username"
-              className="form-field"
-              placeholder="Username"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#ffffff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
+              id="username"
+              className="form-control"
+              placeholder="Enter your username"
             />
-
             <ErrorMessage
-              component="span"
+              component="div"
               name="username"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="form-error text-danger"
             />
           </div>
           <div className="form-group">
+            <label htmlFor="password">Password</label>
             <Field
               name="password"
-              className="form-field"
+              id="password"
+              className="form-control"
               type="password"
-              placeholder="Password"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
+              placeholder="Enter your password"
             />
-
             <ErrorMessage
-              component="span"
+              component="div"
               name="password"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="form-error text-danger"
             />
           </div>
-
-          <button className="button" type="submit">
+          <button className="btn btn-primary" type="submit">
             Login
           </button>
         </Form>
       </Formik>
-      <Link to="/signin">Register as a new customer</Link>
+      <p>
+        Don't have an account?{" "}
+        <Link to="/signin">Register as a new customer</Link>
+      </p>
     </div>
+    </Layout>
   );
 }
 

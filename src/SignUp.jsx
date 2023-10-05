@@ -4,11 +4,13 @@ import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import Axios from "axios";
 import { Navigate } from "react-router-dom";
+import Layout from "./layout";
 
 function SignIn() {
-  const [registered, setregistered] = useState(false);
+  const [registered, setRegistered] = useState(false);
+
   const handleRegister = (values) => {
-    Axios.post("http://localhost:3001/register", {
+    Axios.post(process.env.REACT_APP_DOMAIN_NAME+"/register", {
       username: values.username,
       address: values.address,
       usertype: values.usertype,
@@ -16,7 +18,7 @@ function SignIn() {
       password: values.password,
     }).then((response) => {
       if (response.data.msg === "Customer successfully added") {
-        setregistered(true);
+        setRegistered(true);
       }
       alert(response.data.msg);
     });
@@ -25,16 +27,15 @@ function SignIn() {
   const validationsRegister = yup.object().shape({
     username: yup.string().required("Username is required"),
     address: yup.string().required("Address is required"),
-    usertype: yup.string().required(""),
+    usertype: yup.string().required("User Type is required"),
     number: yup
       .string()
       .length(10, "Phone number must be 10 digits")
       .required("Contact number is required"),
-
     password: yup
       .string()
       .min(8, "Password must be at least 8 characters")
-      .required("password is required"),
+      .required("Password is required"),
     confirmation: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match")
@@ -42,174 +43,115 @@ function SignIn() {
   });
 
   return (
+    <Layout>
     <div className="container">
       {registered && <Navigate to="/" />}
-      <h1>Registration</h1>
+      <h1>Registration. Enter your details</h1>
       <Formik
         initialValues={{ usertype: "end customer" }}
         onSubmit={handleRegister}
         validationSchema={validationsRegister}
       >
         <Form className="register-form">
-          <div className="register-form-group">
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
             <Field
               name="username"
-              className="form-field"
+              id="username"
+              className="form-control"
               placeholder="Username"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
             />
-
             <ErrorMessage
               component="span"
               name="username"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="text-danger"
             />
           </div>
-          <div className="register-form-group">
+
+          <div className="form-group">
+            <label htmlFor="address">Address</label>
             <Field
               name="address"
-              className="form-field"
+              id="address"
+              className="form-control"
               placeholder="Address"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
             />
-
             <ErrorMessage
               component="span"
               name="address"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="text-danger"
             />
           </div>
-          <div className="register-form-group">
+
+          <div className="form-group">
+            <label htmlFor="number">Telephone Number</label>
             <Field
               name="number"
-              className="form-field"
+              id="number"
+              className="form-control"
               placeholder="Telephone Number"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
             />
-
             <ErrorMessage
               component="span"
               name="number"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="text-danger"
             />
           </div>
-          <div className="register-form-group">
+
+          <div className="form-group">
+            <label htmlFor="usertype">User Type</label>
             <Field
               as="select"
               name="usertype"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
+              id="usertype"
+              className="form-control"
             >
               <option value="wholesaler">Wholesaler</option>
               <option value="retailer">Retailer</option>
-              <option value="end customer" selected>
-                End Customer
-              </option>
+              <option value="end customer">End Customer</option>
             </Field>
           </div>
 
           <div className="form-group">
+            <label htmlFor="password">Password</label>
             <Field
               name="password"
-              className="form-field"
+              id="password"
+              className="form-control"
               type="password"
               placeholder="Password"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
             />
-
             <ErrorMessage
               component="span"
               name="password"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="text-danger"
             />
           </div>
 
           <div className="form-group">
+            <label htmlFor="confirmation">Confirm Password</label>
             <Field
               name="confirmation"
-              className="form-field"
+              id="confirmation"
+              className="form-control"
               type="password"
-              placeholder="Password"
-              style={{
-                transition: "all 0.2s ease-in-out",
-                borderRadius: "7px",
-                font: "13px Helvetica, Arial, sans-serif",
-                border: "3px solid #ccc",
-                background: "#fff",
-                margin: "3px",
-                color: "rgb(0, 0, 0)",
-                padding: "7px 3px",
-                width: "250px",
-              }}
+              placeholder="Confirm Password"
             />
-
             <ErrorMessage
               component="span"
               name="confirmation"
-              className="form-error"
-              style={{ color: "red", margin: "7px 3px" }}
+              className="text-danger"
             />
           </div>
 
-          <button className="button" type="submit">
+          <button className="btn btn-primary" type="submit">
             Register
           </button>
         </Form>
       </Formik>
     </div>
+    </Layout>
   );
 }
+
 export default SignIn;

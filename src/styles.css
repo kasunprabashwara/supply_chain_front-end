@@ -1,102 +1,91 @@
+/* styles.css */
+
 body {
-  background: #ffffff;
-  background: linear-gradient(to bottom, #ffffff, #e6fff0);
+  background-image: url("../src/wp9448832.webp");
   display: flex;
   flex-direction: column;
   flex-grow: 0;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.page-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a subtle effect */
+  padding: 20px; /* Optional: Add padding to the container */
+  min-width: 300px; /* Set a minimum width to prevent the container from becoming too narrow */
+  min-height: 100vh; /* Set a minimum height to cover the entire viewport */
+  margin: 20px; /* Optional: Add margin for spacing from the edges */
+}
+
+.container {
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px; /* Add padding for better visual appearance */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh; /* Set a minimum height to cover the entire viewport */
 }
 
 h1 {
-  margin: 0 auto 10px;
-  color: rgb(0, 0, 0);
-  font: 30px Helvetica;
+  margin: 0 auto 20px;
+  color: #404040;
+  font-size: 36px;
+  font-weight: bold;
   letter-spacing: 3px;
 }
-form-field {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
 
-form {
-  label {
-    position: relative;
-    display: block;
-
-    input {
-      font: 18px Helvetica, Arial, sans-serif;
-      box-sizing: border-box;
-      display: block;
-      border: none;
-      padding: 10% 0;
-      width: 300px;
-      margin-bottom: 20px;
-      font-size: 18px;
-      outline: none;
-      transition: all 0.2s ease-in-out;
-
-      &::placeholder {
-        transition: all 0.2s ease-in-out;
-        color: #999;
-        font: 18px Helvetica, Arial, sans-serif;
-      }
-
-      &:focus,
-      &.populated {
-        padding-top: 28px;
-        padding-bottom: 12px;
-
-        &::placeholder {
-          color: transparent;
-        }
-
-        & + span {
-          opacity: 1;
-          top: 10px;
-        }
-      }
-    }
-
-    span {
-      color: #35dc9b;
-      font: 13px Helvetica, Arial, sans-serif;
-      position: absolute;
-      top: 0px;
-      left: 20px;
-      opacity: 0;
-      transition: all 0.2s ease-in-out;
-    }
-  }
-}
-button {
-  transition-duration: 0.4s;
-  margin: 30px;
-  padding: 100px, 20px;
-  width: 100px;
-  color: #ffffff;
-  background-color: #63c273;
-  border: 0 solid #000000;
-  border-radius: 20px;
-}
-
-button:hover {
-  background-color: #197526; /* Green */
-  color: white;
-}
-input[type="submit"] {
-  transition: all 0.2s ease-in-out;
-  font: 18px Helvetica, Arial, sans-serif;
-  border: none;
+.login-form {
   background: #ffffff;
-  color: rgb(0, 0, 0);
-  padding: 16px 40px;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.register-form {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.form-group {
+  margin-bottom: 20px;
+}
 
-  &:hover {
-    background: #109f67;
-  }
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #414141;
+}
+
+.btn-primary {
+  background-color: #2d67ec;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #1a4f99;
+}
+
+.link {
+  font-size: 16px;
+  color: #197526;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
 }

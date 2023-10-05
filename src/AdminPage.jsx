@@ -5,16 +5,20 @@ import SalesByCity from "./SalesByCity";
 import SalesByRoute from "./SalesByRoute";
 import WorkingHours from "./WorkingHours";
 import Axios from "axios";
+import Layout from "./layout";
 
 function AdminPage() {
   const [reportType, setReportType] = useState("0");
   const username = useLocation().state.username;
   const schedule = () => {
-    Axios.get("http://localhost:3001/schedule").then((res) => {
-      console.log(res.data);
-    });
+    Axios.get(process.env.REACT_APP_DOMAIN_NAME+"/schedule").then(
+      (res) => {
+        console.log(res.data);
+      }
+    );
   };
   return (
+    <Layout>
     <div>
       <h1>Admin Page. Welcome {username} </h1>
       <div className="row">
@@ -57,6 +61,7 @@ function AdminPage() {
         })()}
       </div>
     </div>
+    </Layout>
   );
 }
 export default AdminPage;

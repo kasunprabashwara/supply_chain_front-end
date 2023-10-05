@@ -6,7 +6,7 @@ function QuaterlySales() {
   const [year, setyear] = useState("2022");
   const [fetched, setfetched] = useState(false);
   const fetchReport = () => {
-    Axios.post("http://localhost:3001/quaterly", {
+    Axios.post(process.env.REACT_APP_DOMAIN_NAME+"/quaterly", {
       quater: quater,
       year: year,
     }).then((response) => {

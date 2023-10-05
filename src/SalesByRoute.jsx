@@ -8,12 +8,14 @@ function SalesByRoute() {
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/allroutes").then((res) => {
-      setRoutes(res.data);
-    });
+    Axios.get(process.env.REACT_APP_DOMAIN_NAME+"/allroutes").then(
+      (res) => {
+        setRoutes(res.data);
+      }
+    );
   }, []);
   const fetchReport = () => {
-    Axios.post("http://localhost:3001/routereport", {
+    Axios.post(process.env.REACT_APP_DOMAIN_NAME+"/routereport", {
       route: route,
       year: year,
     }).then((response) => {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Layout from "./layout";
 
 function OrderPage() {
   const [items, setItems] = useState([]);
@@ -13,23 +14,30 @@ function OrderPage() {
   const customerID = useLocation().state.customerID;
 
   useEffect(() => {
-    axios.get("http://localhost:3001/products").then((res) => {
-      setItems(res.data);
-    });
-    axios.get("http://localhost:3001/stores").then((res) => {
-      console.log(res.data);
-      setStores(res.data);
-    });
+    axios
+      .get(process.env.REACT_APP_DOMAIN_NAME+"/products")
+      .then((res) => {
+        setItems(res.data);
+      });
+    axios
+      .get(process.env.REACT_APP_DOMAIN_NAME+"/stores")
+      .then((res) => {
+        console.log(res.data);
+        setStores(res.data);
+      });
   }, []);
   useEffect(() => {
     axios
-      .post("http://localhost:3001/routes", { Store_ID: selectedStore })
+      .post(process.env.REACT_APP_DOMAIN_NAME+"/routes", {
+        Store_ID: selectedStore,
+      })
       .then((res) => {
         console.log(res.data);
         setRoutes(res.data);
       });
   }, [selectedStore]);
 
+  // this function will be called when the user changes the quantity of an item in the cart
   const updateCart = (product, value) => {
     const id = parseInt(product.Product_ID);
     const newCart = [];
@@ -49,36 +57,11 @@ function OrderPage() {
     }
     setCart(newCart);
   };
-  // const placeOrder = () => {
-  //   axios
-  //     .post("http://localhost:3001/placeOrder", {
-  //       customerID: customerID,
-  //       routeID: selectedRoute,
-  //     })
-  //     .then((res) => {
-  //       if (res) {
-  //         console.log(res.data);
-  //         const orderID = res.data[0].orderID;
-  //         for (const item of cart) {
-  //           axios
-  //             .post("http://localhost:3001/addItem", {
-  //               orderID: orderID,
-  //               productID: item.Product_ID,
-  //               quantity: item.quantity,
-  //             })
-  //             .then((res) => {
-  //               if (res) {
-  //                 console.log(res.data);
-  //               }
-  //             });
-  //         }
-  //         alert("Order Placed");
-  //       }
-  //     });
-  // };
+
+  // this function will be called when the user clicks on the place order button
   const placeOrder = () => {
     axios
-      .post("http://localhost:3001/addorder", {
+      .post(process.env.REACT_APP_DOMAIN_NAME+"/addorder", {
         order: { customerID: customerID, routeID: selectedRoute },
         items: cart,
       })
@@ -91,6 +74,7 @@ function OrderPage() {
   };
 
   return (
+    <Layout>
     <div className="container">
       <div className="row">
         <div className="col-8">
@@ -114,6 +98,8 @@ function OrderPage() {
                     <td>
                       <input
                         type="number"
+                        min="0"
+                        placeholder="0"
                         className="form-control"
                         onChange={(e) => updateCart(item, e.target.value)}
                       />
@@ -201,6 +187,7 @@ function OrderPage() {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
 export default OrderPage;

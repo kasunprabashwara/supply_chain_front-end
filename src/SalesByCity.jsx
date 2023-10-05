@@ -8,12 +8,15 @@ function SalesByCity() {
   const [stores, setstores] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/allstores").then((res) => {
-      setstores(res.data);
-    });
+    Axios.get(process.env.REACT_APP_DOMAIN_NAME+"/allstores").then(
+      (res) => {
+        console.log(res.data);
+        setstores(res.data);
+      }
+    );
   }, []);
   const fetchReport = () => {
-    Axios.post("http://localhost:3001/cityreport", {
+    Axios.post(process.env.REACT_APP_DOMAIN_NAME+"/cityreport", {
       city: city,
       year: year,
     }).then((response) => {

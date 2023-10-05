@@ -33,21 +33,27 @@ function WorkingHours() {
 
   const fetchReport = () => {
     if (format === "m") {
-      Axios.post("http://localhost:3001/mworkinghours", {
-        month: time,
-        type: type,
-        year: year,
-      }).then((response) => {
+      Axios.post(
+        process.env.REACT_APP_DOMAIN_NAME+"/mworkinghours",
+        {
+          month: time,
+          type: type,
+          year: year,
+        }
+      ).then((response) => {
         setReportData(response.data[0]);
         setfetched(true);
         console.log(reportData);
       });
     } else {
-      Axios.post("http://localhost:3001/qworkinghours", {
-        quater: time,
-        year: year,
-        type: type,
-      }).then((response) => {
+      Axios.post(
+        process.env.REACT_APP_DOMAIN_NAME+"/qworkinghours",
+        {
+          quater: time,
+          year: year,
+          type: type,
+        }
+      ).then((response) => {
         setReportData(response.data[0]);
         setfetched(true);
         console.log(reportData);
