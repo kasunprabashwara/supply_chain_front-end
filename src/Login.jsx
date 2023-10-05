@@ -63,7 +63,7 @@ function App() {
           state={{ username: currentUsername, customerID: customerID }}
         />
       )}
-      <h1>Welcome to EasyExpress web portal</h1>
+      <h1>Welcome to LogiSync</h1>
       <h2>Login</h2>
       <Formik
         initialValues={{}}
